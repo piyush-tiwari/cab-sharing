@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="67dp"
@@ -45,12 +45,12 @@
         android:id="@+id/textViewSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="94dp"
-        android:layout_marginEnd="107dp"
-        android:layout_marginRight="107dp"
+        android:layout_marginTop="124dp"
+        android:layout_marginEnd="112dp"
+        android:layout_marginRight="112dp"
         android:text="Don't have an account? Sign Up!"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonSignUp" />
 
     <EditText
         android:id="@+id/editText3"
@@ -60,7 +60,7 @@
         android:layout_marginLeft="95dp"
         android:layout_marginTop="41dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="textPersonName|textPassword"
         android:text="Password"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText" />
