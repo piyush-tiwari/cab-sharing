@@ -8,17 +8,20 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
 
+    ProgressBar progressBar;
     EditText editTextEmail, editTextPassword;
 
     @Override
@@ -28,10 +31,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
+        progressBar = findViewById(R.id.progressBar);
 
         mAuth = FirebaseAuth.getInstance();
 
-        findViewById(R.id.buttonSignUp).setOnClickListener(this);
+        findViewById(R.id.buttonLogin).setOnClickListener(this);
         findViewById(R.id.textViewLogin).setOnClickListener(this);
 
     }
@@ -64,12 +68,30 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             return;
         }
 
+        progressBar.setVisibility(View.VISIBLE);
+
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), "User Registered Succesfully", Toast.LENGTH_SHORT).show();
 
+                progressBar.setVisibility(View.GONE);
+
+                if(task.isSuccessful()){
+                    Toast.makeText(getApplicationContext(), "User Registered Successfully", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(SignUpActivity.this, ProfileActivity.class);
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //To prevent user from going back to Login Activity
+                    startActivity(intent);
+                    finish();
+                }
+                else{
+
+                    if(task.getException() instanceof FirebaseAuthUserCollisionException){
+                        Toast.makeText(getApplicationContext(), "User already registered", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -82,7 +104,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         switch(view.getId()){
-            case R.id.buttonSignUp:
+            case R.id.buttonLogin:
                 registerUser();
                 break;
 

@@ -1,5 +1,6 @@
 # cab-sharing
 
-UI not polished yet.
-
 Registering user via email completed.
+Login Feature completed.
+
+issues : handling back button presses
